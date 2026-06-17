@@ -35,3 +35,11 @@ build/
 ### Postgres ###
 postgres_data/
 .DS_Store
+
+### Environment Variables ###
+application-local.properties
+
+### Node (editor tooling — not part of the Java app) ###
+node_modules/
+package-lock.json
+package.json
