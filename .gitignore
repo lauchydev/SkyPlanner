@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Postgres ###
+postgres_data/
+.DS_Store
