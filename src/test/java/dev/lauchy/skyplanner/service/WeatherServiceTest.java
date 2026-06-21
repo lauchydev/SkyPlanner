@@ -19,17 +19,29 @@ class WeatherServiceTest {
     private WeatherService weatherService;
     @BeforeEach
     void setUp() {
-        // Fake JSON that matches your WeatherResponse record fields
+        // Fake JSON that matches your WeatherResponse (OpenWeatherMap) record fields
+        // String json = """
+        //     {
+        //       "city": "London",
+        //       "country": "GB",
+        //       "temperature": 15.5,
+        //       "description": "clear sky",
+        //       "humidity": 72,
+        //       "icon": "01d"
+        //     }
+        //     """;
+
         String json = """
             {
-              "city": "London",
-              "country": "GB",
-              "temperature": 15.5,
-              "description": "clear sky",
-              "humidity": 72,
-              "icon": "01d"
+            "name": "London",
+            "sys": { "country": "GB" },
+            "main": { "temp": 15.5, "humidity": 72 },
+            "weather": [
+                { "description": "clear sky", "icon": "01d" }
+            ]
             }
             """;
+        
         WebClient webClient = WebClient.builder()
                 .exchangeFunction(request -> Mono.just(
                         ClientResponse.create(HttpStatus.OK)
