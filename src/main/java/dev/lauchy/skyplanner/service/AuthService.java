@@ -11,17 +11,18 @@ import dev.lauchy.skyplanner.dto.LoginRequest;
 import dev.lauchy.skyplanner.dto.RegisterRequest;
 import dev.lauchy.skyplanner.model.User;
 import dev.lauchy.skyplanner.repository.UserRepository;
-import io.jsonwebtoken.JwtBuilder;
 
 @Service
 public class AuthService {
 
     // Inject UserRepository
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     // Constructor injection
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -42,7 +43,8 @@ public class AuthService {
         userRepository.save(user);
 
         // Return JWT
-        return new AuthResponse("Test Register Token", request.email());
+        String token = jwtService.generateToken(user);
+        return new AuthResponse(token, request.email());
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -59,7 +61,8 @@ public class AuthService {
         }
 
         // Return JWT or return 401
-        return new AuthResponse("Test Login Token", request.email());
+        String token = jwtService.generateToken(user);
+        return new AuthResponse(token, request.email());
     }
     
 }
